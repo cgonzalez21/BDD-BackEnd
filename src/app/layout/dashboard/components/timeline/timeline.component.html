@@ -1,0 +1,25 @@
+<div class="card-body">
+    <ul class="timeline">
+        <div class="list-group">
+            <mat-form-field floatLabel=never>
+                <mat-select (focus)="checkPlaceHolder()" (blur)="checkPlaceHolder()" matInput
+                    placeholder=" {{myplaceHolder}} ">
+                    <mat-option *ngFor="let info of information" [value]="info.name_emp">
+                        {{ info.name_emp }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="list-group">
+            <mat-form-field floatLabel=never>
+                <mat-select (focus)="checkPlaceHolder()" (blur)="checkPlaceHolder()" matInput
+                    placeholder=" {{myplaceHolder}} ">
+                    <mat-option *ngFor="let info of information" [value]="info.name_emp">
+                        {{ info.name_suc}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+    </ul>
+</div>

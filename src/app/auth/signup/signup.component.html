@@ -1,0 +1,28 @@
+<div class="login-page">
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <img class="user-avatar" src="assets/images/logo.png" width="150px" />
+            <h1>{{ 'Final Project' | translate }}</h1>
+            <form #signupForm="ngForm" *ngIf="!isLoading" role="form">
+                <div class="form-content">
+                    <div class="form-group">
+                        <input name="fullName" ngModel type="text" #fnameInput="ngModel" placeholder="Full Name"
+                            required fullName class="form-control input-underline input-lg" id="">
+                    </div>
+
+                    <div class="form-group">
+                        <input name="email" ngModel type="email" placeholder="E-Mail" #emailInput="ngModel" required
+                            email class="form-control input-underline input-lg" id="">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" name="password" ngModel placeholder="Password" #passwordInput="ngModel"
+                            required class="form-control input-underline input-lg" id="">
+                    </div>
+                </div>
+                <a class="btn rounded-btn" [routerLink]="['/']">Log In</a>&nbsp;
+                <a (click)="onSignup(signupForm)" class="btn rounded-btn"> Register </a>&nbsp;
+            </form>
+        </div>
+    </div>
+</div>
