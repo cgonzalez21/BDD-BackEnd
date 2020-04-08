@@ -1,30 +1,38 @@
-var dbConnector = require('../repository/tediousconnector');
-var Request = require('tedious').Request;
 var Empresa = require('../models/empresa');
+var sql = require("mssql");
+var config = require("../config/db")();
 
-function getInformation(req, res) {
-    var information = [];
-    var request = new Request("dbo.API_GetEmpresa", function (err, rowCount) {
+function getEmpresa(req, res, cliente) {
+    var empresa = [];
+
+    sql.connect(config, function (err) {
+
         if (err) {
+            console.log("ERROR IN CONNECT");
             console.log(err);
-            res.status(500).json({ error: err.message });
-        } else {
-            res.json(information);
-            dbConnector.closeConnection(request.__connection);
         }
-    });
 
-    request.on('row', function (columns) {
-        information.push(new Empresa(columns));
+        var request = new sql.Request()
+            .on('row', function (columns) {
+                empresa.push(new Empresa(columns));
+            })
+            .execute('dbo.API_GetEmpresa', (err, result) => {
+                if (err) {
+                    res.send(err);
+                }
+                else {
+                    res.send(result.recordsets);
+                }
+                sql.close()
+            });
     });
-
-    dbConnector.callProcedure(request);
 };
+
 
 
 var controller = {
     get: function (req, res) {
-        getInformation(req, res);
+        getEmpresa(req, res);
     },
 };
 

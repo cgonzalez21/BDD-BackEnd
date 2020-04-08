@@ -1,66 +1,81 @@
-var dbConnector = require('../repository/tediousconnector');
-var Request = require('tedious').Request;
-var TYPES = require('tedious').TYPES;
-var Client = require('../models/cliente')
-var NewClient = require('../models/cliente_nuevo')
+var Client = require('../models/cliente');
+var NewClient = require('../models/cliente_nuevo');
+var sql = require("mssql");
+var config = require("../config/db")();
+
+
 
 function getCliente(req, res, cliente) {
   var ente = [];
-  var request = new Request("dbo.API_GetCliente", function (err, rowCount) {
-    if (err) {
-      console.log(err);
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json(ente);
-      dbConnector.closeConnection(request.__connection);
-    }
-  });
 
-  request.on('row', function (columns) {
-    ente.push(new Client(columns));
+  sql.connect(config, function (err) {
+
+    if (err) {
+      console.log("ERROR IN CONNECT");
+      console.log(err);
+    }
+
+    var request = new sql.Request()
+      .input('i_cedula', sql.VarChar, req.params.id)
+      .on('row', function (columns) {
+        ente.push(new Client(columns));
+      })
+      .execute('dbo.API_GetCliente', (err, result) => {
+        if (err) {
+          res.send(err);
+        }
+        else {
+          res.send(result.recordsets);
+        }
+        sql.close()
+      });
   });
-  
-  //request.addParameter('i_cedula', TYPES.VarChar, cliente.cedula);
-  console.log(request)
-  dbConnector.callProcedure(request);
 };
+
+
 
 function saveClient(req, res, new_cliente) {
   var ente = [];
-  var request = new Request("dbo.API_PutCliente", function (err, rowCount) {
+
+  sql.connect(config, function (err) {
+
     if (err) {
+      console.log("ERROR IN CONNECT");
       console.log(err);
-      res.status(500).json({ error: err });
-    } else {
-      res.json(ente);
-      dbConnector.closeConnection(request.__connection);
     }
+
+    var request = new sql.Request()
+      .input('i_Nombre_cl', sql.VarChar, new_cliente.nombre)
+      .input('i_Apellido_cl', sql.VarChar, new_cliente.apellido)
+      .input('i_Telefono_cl', sql.VarChar, new_cliente.telefono)
+      .input('i_Correo_cl', sql.VarChar, new_cliente.correo)
+      .input('i_Cedula_cl', sql.VarChar, new_cliente.cedula)
+      .on('row', function (columns) {
+        ente.push(new NewClient(columns));
+      })
+      .execute('dbo.API_PutCliente', (err, result) => {
+        if (err) {
+          res.send(err);
+        }
+        else {
+          res.send(result.recordsets);
+        }
+        sql.close()
+      });
   });
-
-  request.on('row', function (columns) {
-    ente.push(new NewClient(columns));
-  });
-
-  request.addParameter('Nombre_cl', TYPES.VarChar, new_cliente.name);
-  request.addParameter('Apellido_cl', TYPES.VarChar, new_cliente.apellido);
-  request.addParameter('Telefono_cl', TYPES.VarChar, new_cliente.telefono);
-  request.addParameter('Correo_cl', TYPES.VarChar, new_cliente.correo);
-  request.addParameter('Cedula_cl', TYPES.VarChar, new_cliente.cedula);
-
-  dbConnector.callProcedure(request);
 };
+
 
 var controller = {
   get: function (req, res) {
     var cliente = {
-      cedula: req.body.cedula
+      cedula: req.params.id
     };
-    console.log(cliente.cedula);
-    getCliente(req, res, cliente)
+    getCliente(req, res, cliente);
   },
-    save: function (req, res) {
+  save: function (req, res) {
     var new_cliente = {
-      name: req.body.name,
+      nombre: req.body.nombre,
       apellido: req.body.apellido,
       telefono: req.body.telefono,
       correo: req.body.correo,
@@ -71,4 +86,3 @@ var controller = {
 };
 
 module.exports = controller;
-

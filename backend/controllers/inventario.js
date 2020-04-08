@@ -1,56 +1,71 @@
-var dbConnector = require('../repository/tediousconnector');
-var Request = require('tedious').Request;
-var TYPES = require('tedious').TYPES;
+var sql = require("mssql");
+var config = require("../config/db")();
+var Inventario = require('../models/inventario');
 
 function getAllInv(req, res) {
-  var information = [];
-  var request = new Request("dbo.API_GetAllInv", function (err, rowCount) {
+  var inventario = [];
+  sql.connect(config, function (err) {
+
     if (err) {
+      console.log("ERROR IN CONNECT");
       console.log(err);
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json(information);
-      dbConnector.closeConnection(request.__connection);
     }
-  });
 
-  request.on('row', function (columns) {
-    information.push(new Information(columns));
+    var request = new sql.Request()
+      .on('row', function (columns) {
+        inventario.push(new Inventario(columns));
+      })
+      .execute('dbo.API_GetAllInv', (err, result) => {
+        if (err) {
+          res.send(err);
+        }
+        else {
+          res.send(result.recordsets);
+        }
+        sql.close()
+      });
   });
-
-  dbConnector.callProcedure(request);
 };
+
 
 function getOne(req, res, inventario) {
-  var products = [];
-  var request = new Request("dbo.API_GetOneInv", function (err, rowCount) {
+  var inv = [];
+
+  sql.connect(config, function (err) {
+
     if (err) {
-      res.status(500).json({ error: err });
-    } else {
-      res.json(products);
-      dbConnector.closeConnection(request.__connection);
+      console.log("ERROR IN CONNECT");
+      console.log(err);
     }
+
+    var request = new sql.Request()
+      .input('i_id_suc', sql.VarChar, inventario.id_sucursal)
+      .on('row', function (columns) {
+        inv.push(new Inventario(columns));
+      })
+      .execute('dbo.API_GetOneInv', (err, result) => {
+        if (err) {
+          res.send(err);
+        }
+        else {
+          res.send(result.recordsets);
+        }
+        sql.close()
+      });
   });
-
-  request.on('row', function (columns) {
-    products.push(new Product(columns));
-  });
-
-  request.addParameter('i_id_suc', TYPES.VarChar, inventario.id_almacen);
-
-  dbConnector.callProcedure(request);
 };
+
 
 var controller = {
   getOne: function (req, res) {
     var inventario = {
-      cedula: req.params.id_almacen
+      id_sucursal: req.params.id
     }
-    getOne(req, req, inventario);
+    getOne(req, res, inventario);
   },
   getAll: function (req, res) {
     getAllInv(req, res);
-  },
+  }
 };
 
 module.exports = controller;

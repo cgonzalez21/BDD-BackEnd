@@ -1,35 +1,36 @@
-var dbConnector = require('../repository/tediousconnector');
-var Request = require('tedious').Request;
 var Articulo = require ('../models/articulo')
-
-
+var sql = require("mssql");
+var config = require("../config/db")();
 
 function getAll(req, res) {
-	var articulo = [];
-	var request = new Request("dbo.API_GetAllArticulo", function(err, rowCount) {
+  var articulo = [];
+  sql.connect(config, function (err) {
+
     if (err) {
+      console.log("ERROR IN CONNECT");
       console.log(err);
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json(articulo);
-      dbConnector.closeConnection(request.__connection);
     }
-  });
 
-  request.on('row', function(columns) {
-    articulo.push(new Articulo(columns));
+    var request = new sql.Request()
+      .on('row', function (columns) {
+        articulo.push(new Articulo(columns));
+      })
+      .execute('dbo.API_GetAllArticulo', (err, result) => {
+        if (err) {
+          res.send(err);
+        }
+        else {
+          res.send(result.recordsets);
+        }
+        sql.close()
+      });
   });
-
-  dbConnector.callProcedure(request);
 };
 
-
-
 var controller = {
-  getAll: function (req, res){
+  get: function (req, res){
     getAll(req, res);
   }
 };
 
 module.exports = controller;
-
