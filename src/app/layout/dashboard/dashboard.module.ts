@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbCarouselModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
+
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import {
@@ -9,12 +9,7 @@ import {
     NotificationComponent,
     ChatComponent
 } from './components';
-import {
-    MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule
-} from "@angular/material"
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StatModule } from '../../shared';
 
 @NgModule({
     imports: [
@@ -22,12 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         NgbCarouselModule.forRoot(),
         NgbAlertModule.forRoot(),
         DashboardRoutingModule,
-        TranslateModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatOptionModule,
-        FormsModule,
-        ReactiveFormsModule
+        StatModule
     ],
     declarations: [
         DashboardComponent,
@@ -36,4 +26,4 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         ChatComponent
     ]
 })
-export class DashboardModule { }
+export class DashboardModule {}

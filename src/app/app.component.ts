@@ -1,18 +1,15 @@
-
-import { AuthService } from './auth/auth.service';
 import { Component, OnInit } from '@angular/core';
-
+import { BackEndService } from '../app/service'
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private authService: AuthService) {}
+    constructor( beservice: BackEndService) {
+    }
 
-  ngOnInit() {
-    console.log("HOLA APP COMPONENT");
-    //this.authService.autoAuthUser();
-  }
+    ngOnInit() {
+    }
 }

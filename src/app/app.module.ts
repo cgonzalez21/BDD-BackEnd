@@ -1,38 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {
-    MatInputModule,
-    MatCardModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatExpansionModule,
-    MatProgressSpinnerModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatFormField,
-    MatLabel,
-    MatSelect,
-    MatOption,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule
-} from "@angular/material";
+
 import { AppRoutingModule } from './app-routing.module';
-import { AuthInterceptor } from './auth/auth-interceptor';
 import { AppComponent } from './app.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ErrorInterceptor } from './error-interceptor';
-import { ErrorComponent } from './error/error.component';
-import { LoginComponent } from './auth/login/login.component';
-import { SignupComponent } from './auth/signup/signup.component';
+import { AuthGuard } from './shared';
 
+// AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
-
+    /* for development
+    return new TranslateHttpLoader(
+        http,
+        '/start-angular/SB-Admin-BS4-Angular-6/master/dist/assets/i18n/',
+        '.json'
+    ); */
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 };
 
@@ -40,22 +25,8 @@ export const createTranslateLoader = (http: HttpClient) => {
     imports: [
         CommonModule,
         BrowserModule,
-        ReactiveFormsModule,
-        FormsModule,
         BrowserAnimationsModule,
         HttpClientModule,
-        MatInputModule,
-        MatCardModule,
-        MatButtonModule,
-        MatToolbarModule,
-        MatExpansionModule,
-        MatProgressSpinnerModule,
-        MatPaginatorModule,
-        MatDialogModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -65,17 +36,8 @@ export const createTranslateLoader = (http: HttpClient) => {
         }),
         AppRoutingModule
     ],
-    declarations: [
-        AppComponent,
-        ErrorComponent,
-        LoginComponent,
-        SignupComponent
-    ],
-    providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-    ],
-    bootstrap: [AppComponent],
-    entryComponents: [ErrorComponent]
+    declarations: [AppComponent],
+    providers: [AuthGuard],
+    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

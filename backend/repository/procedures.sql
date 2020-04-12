@@ -22,8 +22,8 @@ AS
 	SELECT
     [ID_em]
       , [Nombre_em]
-	  , [Description_em]
-FROM [dbo].[Empresa];
+	  , [Descripcion_em]
+FROM [dbo].[Empresa]
 	
 	SET NOCOUNT OFF;
 GO
@@ -42,15 +42,15 @@ GO
 --Create procedure para insertar un registro de un cliente nuevo
 IF NOT EXISTS (SELECT *
 FROM sys.objects
-WHERE type = 'P' AND name = 'API_PutCliente')
-   exec('CREATE PROCEDURE [dbo].[API_PutCliente] AS BEGIN SET NOCOUNT ON; END')
+WHERE type = 'P' AND name = 'API_PostCliente')
+   exec('CREATE PROCEDURE [dbo].[API_PostCliente] AS BEGIN SET NOCOUNT ON; END')
 GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROCEDURE [dbo].[API_PutCliente]
+ALTER PROCEDURE [dbo].[API_PostCliente]
     @i_Nombre_cl      varchar(30),
     @i_Apellido_cl    varchar(30),
     @i_Telefono_cl    varchar(50),
@@ -62,36 +62,17 @@ SET NOCOUNT ON;
     IF NOT EXISTS(SELECT TOP 1
     *
 FROM [dbo].[Cliente]
-WHERE [Cedula_cl] = @Cedula_cl)
+WHERE [Cedula_cl] = @i_Cedula_cl)
     BEGIN
     INSERT [dbo].[Cliente]
         ([FechaRegistro_cl], [Nombre_cl], [Apellido_cl], [Telefono_cl], [Correo_cl], [Cedula_cl])
     VALUES
         (getdate(), @i_Nombre_cl, @i_Apellido_cl, @i_Telefono_cl, @i_Correo_cl, @i_Cedula_cl)
-
-    if @@error = 0 AND @@rowcount = 1
-           COMMIT;
 END
-
-
-    SELECT [Id_cl],
-    [FechaRegistro_cl],
-    [Nombre_cl],
-    [Apellido_cl],
-    [Telefono_cl],
-    [Correo_cl],
-    [Cedula_cl]
-FROM [dbo].[Cliente]
-WHERE [Cedula_cl] = @i_Cedula_cl 
 
 SET NOCOUNT OFF;
 
 GO
-
-
-
-
-
 
 
 
@@ -107,7 +88,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 ALTER PROCEDURE [dbo].[API_GetCliente]
---@i_cedula varchar(30)
+    @i_cedula varchar(30)
 AS
 SET NOCOUNT ON;
     SELECT [Id_cl],
@@ -118,7 +99,7 @@ SET NOCOUNT ON;
     [Correo_cl],
     [Cedula_cl]
 FROM [dbo].[Cliente]
-    --WHERE [Cedula_cl] = @i_cedula
+WHERE [Cedula_cl] = @i_cedula
 SET NOCOUNT OFF;
 GO
 
@@ -137,7 +118,7 @@ GO
 --Create procedure para consultar todos los registros de articulos
 IF NOT EXISTS (SELECT *
 FROM sys.objects
-WHERE type = 'P' AND name = 'API_GetAllArt')
+WHERE type = 'P' AND name = 'API_GetAllArticulo')
    exec('CREATE PROCEDURE [dbo].[API_GetAllArticulo] AS BEGIN SET NOCOUNT ON; END')
 GO
 SET ANSI_NULLS ON
@@ -150,7 +131,8 @@ AS
 SET NOCOUNT ON;
 
     BEGIN
-    SELECT *
+    SELECT [ID_ar], [FechaRegistro_ar], [Descripcion_ar],
+        [Precio_ar], [PorcentajeImpuesto_ar], [Estatus_ar]
     FROM [dbo].[Articulo]
 
 END
@@ -177,10 +159,11 @@ GO
 ALTER PROCEDURE [dbo].[API_GetAllInv]
 AS
 SET NOCOUNT ON;
-    SELECT [ID_in], [FechaRegistro_in], [Almacen_in], [Nombre_al], [Nombre_su], [Disponible_in], [Articulo_id]
-FROM [dbo].[Inventario], [dbo].[Almacen]
-WHERE [Almacen_id] = [ID_al]
-    AND [Sucursal_al] = [ID_su]
+
+SELECT [ID_in], [FechaRegistro_in], [AlmacenID_in], [Nombre_al], [ArticuloID_in], [Descripcion_ar], [Disponible_in]
+FROM [dbo].[Inventario], [dbo].[Almacen], [dbo].[Articulo]
+WHERE [AlmacenID_in] = [ID_al]
+    AND [ArticuloID_in] = [ID_ar]
 
 SET NOCOUNT OFF;
 GO
@@ -205,11 +188,11 @@ ALTER PROCEDURE [dbo].[API_GetOneInv]
     @i_id_suc varchar(100)
 AS
 SET NOCOUNT ON;
-    SELECT [ID_in], [FechaRegistro_in], [Almacen_in], [Nombre_al], [Nombre_su], [Disponible_in], [Articulo_id]
-FROM [dbo].[Inventario], [dbo].[Almacen]
-WHERE [Almacen_id] = [ID_al]
-    AND [Sucursal_al] = [ID_su]
-    AND [ID_su] = @i_id_suc
+SELECT [ID_in], [FechaRegistro_in], [AlmacenID_in], [Nombre_al], [ArticuloID_in], [Descripcion_ar], [Disponible_in]
+FROM [dbo].[Inventario], [dbo].[Almacen], [dbo].[Articulo]
+WHERE [AlmacenID_in] = [ID_al]
+    AND [ArticuloID_in] = [ID_ar]
+    AND [SucursalID_al] = @i_id_suc
 
 SET NOCOUNT OFF;
 GO
