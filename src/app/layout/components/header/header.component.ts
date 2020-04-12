@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from '../../../auth/auth.service';
+import { BackEndService } from '../../../service';
+import { Empresa } from '../../../model/empresa.model'
 
 @Component({
     selector: 'app-header',
@@ -10,16 +11,16 @@ import { AuthService } from '../../../auth/auth.service';
 })
 export class HeaderComponent implements OnInit {
     pushRightClass: string = 'push-right';
-    public userName: string;
+    public empresa: Empresa[];
 
-    constructor(private translate: TranslateService, 
-        public router: Router,
-        private authService: AuthService) {
 
-        this.translate.addLangs(['en','es']);
-        this.translate.setDefaultLang('en');
+    constructor(private translate: TranslateService, public router: Router,
+        public beservice: BackEndService) {
+
+        this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
+        this.translate.setDefaultLang('es');
         const browserLang = this.translate.getBrowserLang();
-        this.translate.use(browserLang.match(/en|es/) ? browserLang : 'en');
+        this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
 
         this.router.events.subscribe(val => {
             if (
@@ -33,21 +34,15 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userName = localStorage.getItem("userName");
+        this.getEmpresa();
     }
 
-    rltAndLtr() {
-        const dom: any = document.querySelector('body');
-        dom.classList.toggle('rtl');
-    }
-
-    onLoggedout() {
-        //localStorage.removeItem('isLoggedin');
-        this.authService.logout();
-    }
-
-    changeLang(language: string) {
-        this.translate.use(language);
+    getEmpresa() {
+        this.beservice.getEmpresa().subscribe((data: any) => {
+            for (let i in data) {
+                this.empresa = data[i];
+            }
+        });
     }
 
     isToggled(): boolean {
@@ -59,4 +54,5 @@ export class HeaderComponent implements OnInit {
         const dom: any = document.querySelector('body');
         dom.classList.toggle(this.pushRightClass);
     }
+
 }

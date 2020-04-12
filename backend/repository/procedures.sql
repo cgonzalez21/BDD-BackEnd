@@ -22,8 +22,8 @@ AS
 	SELECT
     [ID_em]
       , [Nombre_em]
-	  , [Description_em]
-FROM [dbo].[Empresa];
+	  , [Descripcion_em]
+FROM [dbo].[Empresa]
 	
 	SET NOCOUNT OFF;
 GO
@@ -69,17 +69,6 @@ WHERE [Cedula_cl] = @i_Cedula_cl)
     VALUES
         (getdate(), @i_Nombre_cl, @i_Apellido_cl, @i_Telefono_cl, @i_Correo_cl, @i_Cedula_cl)
 END
-
-
-    SELECT [Id_cl],
-    [FechaRegistro_cl],
-    [Nombre_cl],
-    [Apellido_cl],
-    [Telefono_cl],
-    [Correo_cl],
-    [Cedula_cl]
-FROM [dbo].[Cliente]
-WHERE [Cedula_cl] = @i_Cedula_cl 
 
 SET NOCOUNT OFF;
 

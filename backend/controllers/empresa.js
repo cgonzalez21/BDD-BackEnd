@@ -1,10 +1,7 @@
-var Empresa = require('../models/empresa');
 var sql = require("mssql");
 var config = require("../config/db")();
 
 function getEmpresa(req, res, cliente) {
-    var empresa = [];
-
     sql.connect(config, function (err) {
 
         if (err) {
@@ -12,19 +9,17 @@ function getEmpresa(req, res, cliente) {
             console.log(err);
         }
 
-        var request = new sql.Request()
-            .on('row', function (columns) {
-                empresa.push(new Empresa(columns));
-            })
-            .execute('dbo.API_GetEmpresa', (err, result) => {
-                if (err) {
-                    res.send(err);
-                }
-                else {
-                    res.send(result.recordsets);
-                }
-                sql.close()
-            });
+        var request = new sql.Request();
+
+        request.execute('dbo.API_GetEmpresa', (err, result) => {
+            if (err) {
+                res.send(err);
+            }
+            if (result.returnValue == 0) {
+                res.json(result.recordset);
+            }
+            sql.close()
+        });
     });
 };
 

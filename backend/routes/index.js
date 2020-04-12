@@ -4,7 +4,6 @@ var empresa = require('../controllers/empresa');
 var cliente = require('../controllers/cliente');
 var inventario = require('../controllers/inventario');
 var articulo = require("../controllers/articulo");
-var sql = require("mssql");
 
 //routers of client
 router.get("/getClient/:id", cliente.get);

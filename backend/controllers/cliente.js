@@ -50,20 +50,18 @@ function saveClient(req, res, new_cliente) {
       .input('i_Telefono_cl', sql.VarChar, new_cliente.telefono)
       .input('i_Correo_cl', sql.VarChar, new_cliente.correo)
       .input('i_Cedula_cl', sql.VarChar, new_cliente.cedula)
-      .on('row', function (columns) {
-        ente.push(new NewClient(columns));
-      })
       .execute('dbo.API_PutCliente', (err, result) => {
         if (err) {
           res.send(err);
         }
         else {
-          res.send(result.recordsets);
+          res.status(200).json("Client created succesfuly!!");
         }
         sql.close()
+
       });
   });
-};
+}
 
 
 var controller = {
