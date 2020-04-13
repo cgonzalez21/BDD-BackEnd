@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BackEndService } from '../service'
 
 @Component({
     selector: 'app-layout',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
-    constructor() {}
+    constructor(beservice: BackEndService) {}
 
     ngOnInit() {}
 }
