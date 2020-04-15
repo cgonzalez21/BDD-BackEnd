@@ -6,7 +6,7 @@ import { FormGroup, FormControl, Validators, AbstractControl, NgForm } from '@an
 
 
 @Component({
-    selector: 'app-form',
+    selector: 'app-consult-client',
     templateUrl: './consult.client.component.html',
     styleUrls: ['./consult.client.component.scss'],
     animations: [routerTransition()]

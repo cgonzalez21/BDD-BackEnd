@@ -5,8 +5,8 @@
             <h1>Hello</h1>
             <form #loginForm="ngForm" role="form">
                 <div class="form-content">
-                    <div class="d-inline-block dropdown form-group" ngbDropdown #myDrop="ngbDropdown">
-                        <button class="btn btn-outline-primary" ngbDropdownToggle>{{selectItem}}</button>
+                    <div class="form-group" ngbDropdown #myDrop="ngbDropdown">
+                        <a class="btn rounded-btn" ngbDropdownToggle>{{selectItem}} </a>
                         <div ngbDropdownMenu>
                             <button class="dropdown-item" (click)="changeSortOrder(item)"
                                 *ngFor="let item of data">{{item.Nombre_su}}</button>

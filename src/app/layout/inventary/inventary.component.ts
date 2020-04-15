@@ -6,7 +6,7 @@ import { FormGroup, FormControl, Validators, AbstractControl, NgForm } from '@an
 
 
 @Component({
-    selector: 'app-form',
+    selector: 'app-inventary',
     templateUrl: './inventary.component.html',
     styleUrls: ['./inventary.component.scss'],
     animations: [routerTransition()]
@@ -22,7 +22,6 @@ export class InventaryComponent implements OnInit {
 
     ngOnInit() {
         const sucID = localStorage.getItem('sucID');
-        console.log(sucID);
         this.beservice.getInventario(sucID).subscribe((res) => {
             this.data = res;
         });

@@ -46,5 +46,9 @@
     "Available": "Disponible",
     "Price": "Precio",
     "ITBMS": "ITBMS",
-    "Status": "Estatus"
+    "Status": "Estatus",
+    "Purchase": "Compra",
+    "New purchase": "Nueva compra",
+    "Consult purchase": "Consultar compra",
+    "Purchase details": "Detalles de compra"
 }
