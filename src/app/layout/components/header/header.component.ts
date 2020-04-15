@@ -55,4 +55,9 @@ export class HeaderComponent implements OnInit {
         dom.classList.toggle(this.pushRightClass);
     }
 
+    onLoggedout() {
+        localStorage.removeItem('isLoggedin');
+        localStorage.removeItem('sucID');
+    }
+
 }

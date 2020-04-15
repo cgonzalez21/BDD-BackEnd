@@ -39,5 +39,12 @@
     "ID": "Cedula",
     "Save": "Guardar",
     "Identifier": "Id",
-    "Registry date": "Fecha de registro"
+    "Registry date": "Fecha de registro",
+    "Consult Inventary": "Consultar Inventario",
+    "Inventary": "Inventario",
+    "Description": "Descripcion",
+    "Available": "Disponible",
+    "Price": "Precio",
+    "ITBMS": "ITBMS",
+    "Status": "Estatus"
 }

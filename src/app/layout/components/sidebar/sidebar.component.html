@@ -39,17 +39,20 @@
                 </ul>
             </li>
         </div>
+        <a [routerLink]="['/inventary']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-th-list"></i>&nbsp;{{ 'Consult Inventary' | translate }}
+        </a>
         <!-- <a [routerLink]="['/blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-file-o"></i>&nbsp;{{ 'Blank Page' | translate }}
         </a>
         <a class="list-group-item more-themes" href="http://www.strapui.com/" >
             {{ 'More Theme' | translate }}
-        </a>
+        </a> -->
         <div class="header-fields">
-            <a (click)="rltAndLtr()" class="list-group-item">
+            <!-- <a (click)="rltAndLtr()" class="list-group-item">
                 <span><i class="fa fa-arrows-h"></i>&nbsp; RTL/LTR</span>
-            </a>
-            <div class="nested-menu">
+            </a> -->
+            <!-- <div class="nested-menu">
                 <a class="list-group-item" (click)="addExpandClass('languages')">
                     <span><i class="fa fa-language"></i>&nbsp; {{ 'Language' | translate }} <b class="caret"></b></span>
                 </a>
@@ -92,14 +95,14 @@
                         </li>
                     </ul>
                 </li>
-            </div>
+            </div> -->
             <div class="nested-menu">
                 <a class="list-group-item" (click)="addExpandClass('profile')">
-                    <span><i class="fa fa-user"></i>&nbsp; John Smith</span>
+                    <span><i class="fa fa-user"></i>&nbsp; Hello</span>
                 </a>
                 <li class="nested" [class.expand]="showMenu === 'profile'">
                     <ul class="submenu">
-                        <li>
+                        <!-- <li>
                             <a href="javascript:void(0)">
                                 <span><i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}</span>
                             </a>
@@ -113,7 +116,7 @@
                             <a href="javascript:void(0)">
                                 <span><i class="fa fa-fw fa-gear"></i> {{ 'Settings' | translate }}</span>
                             </a>
-                        </li>
+                        </li> -->
                         <li>
                             <a [routerLink]="['/login']" (click)="onLoggedout()">
                                 <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}</span>
@@ -122,6 +125,6 @@
                     </ul>
                 </li>
             </div>
-        </div> -->
+        </div>
     </div>
 </nav>

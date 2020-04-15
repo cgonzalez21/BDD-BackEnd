@@ -1,9 +1,8 @@
+var Articulo = require('../models/articulo')
 var sql = require("mssql");
 var config = require("../config/db")();
-var Inventario = require('../models/inventario');
 
-
-function getInv(req, res, inventario) {
+function getSuc(req, res, sucID) {
 
   sql.connect(config, function (err) {
 
@@ -13,12 +12,11 @@ function getInv(req, res, inventario) {
     }
 
     var request = new sql.Request()
-      .input('i_id_suc', sql.VarChar, inventario.id_sucursal)
-      .execute('dbo.API_GetOneInv', (err, result) => {
+      .execute('dbo.API_GetSucID', (err, result) => {
         if (err) {
           res.send(err);
         }
-        if (result.returnValue == 0) {
+        if(result.returnValue == 0) {
           res.status(200).json(result.recordset);
         }
         sql.close()
@@ -26,13 +24,12 @@ function getInv(req, res, inventario) {
   });
 };
 
-
 var controller = {
   get: function (req, res) {
-    var inventario = {
-      id_sucursal: req.params.id
+    var sucID = {
+      id: req.params.id
     }
-    getInv(req, res, inventario);
+    getSuc(req, res, sucID);
   }
 };
 

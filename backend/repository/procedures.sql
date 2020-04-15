@@ -92,7 +92,7 @@ ALTER PROCEDURE [dbo].[API_GetCliente]
 AS
 SET NOCOUNT ON;
     SELECT [Id_cl],
-    [FechaRegistro_cl],
+     Convert(nvarchar(12),[FechaRegistro_cl], 101) as FechaRegistro_cl,
     [Nombre_cl],
     [Apellido_cl],
     [Telefono_cl],
@@ -122,12 +122,36 @@ ALTER PROCEDURE [dbo].[API_GetOneInv]
 AS
 SET NOCOUNT ON;
 SELECT --[ID_in], [AlmacenID_in],[ArticuloID_in],
-[FechaRegistro_in], [Nombre_al], [Descripcion_ar], 
-[Disponible_in], [Precio_ar], [PorcentajeImpuesto_ar], [Estatus_ar]
+ Convert(nvarchar(12),[FechaRegistro_in], 101) as FechaRegistro_in, [Nombre_al], [Descripcion_ar], 
+[Disponible_in], [Precio_ar], [PorcentajeImpuesto_ar]
 FROM [dbo].[Inventario], [dbo].[Almacen], [dbo].[Articulo]
 WHERE [AlmacenID_in] = [ID_al]
     AND [ArticuloID_in] = [ID_ar]
     AND [SucursalID_al] = @i_id_suc
+
+SET NOCOUNT OFF;
+GO
+
+
+--*********************************************************************************************************
+
+--Create procedure para validar id de sucursal
+IF NOT EXISTS (SELECT *
+FROM sys.objects
+WHERE type = 'P' AND name = 'API_GetSucID')
+   exec('CREATE PROCEDURE [dbo].[API_GetSucID] AS BEGIN SET NOCOUNT ON; END')
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[API_GetSucID]
+AS
+SET NOCOUNT ON;
+
+    SELECT [ID_su], [Nombre_su]
+    FROM [dbo].[Sucursal]
 
 SET NOCOUNT OFF;
 GO

@@ -62,5 +62,6 @@ export class SidebarComponent {
 
     onLoggedout() {
         localStorage.removeItem('isLoggedin');
+        localStorage.removeItem('sucID');
     }
 }
