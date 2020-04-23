@@ -2,34 +2,52 @@ var Articulo = require('../models/articulo')
 var sql = require("mssql");
 var config = require("../config/db")();
 
-function getSuc(req, res, sucID) {
+function getSuc(req, res) {
 
   sql.connect(config, function (err) {
 
     if (err) {
-      console.log("ERROR IN CONNECT");
-      console.log(err);
+      const resp = {
+        code: 500,
+        message: "ERROR IN DATA BASE CONNECTION",
+        error: err
+      }
+      res.send(resp);
     }
-
-    var request = new sql.Request()
-      .execute('dbo.API_GetSucID', (err, result) => {
-        if (err) {
-          res.send(err);
-        }
-        if(result.returnValue == 0) {
-          res.status(200).json(result.recordset);
-        }
-        sql.close()
-      });
+    else {
+      var request = new sql.Request()
+        .execute('dbo.API_GetSucID', (err, result) => {
+          if (err) {
+            const resp = {
+              code: 401,
+              message: "Ha ocurrido un error, lo sentimos. Intente mas tarde"
+            };
+            res.send(resp);
+          }
+          if (result.returnValue == 0 && result.recordset.length > 0) {
+            const resp = {
+              code: 200,
+              message: "OK",
+              data: result.recordset
+            }
+            res.status(200).json(resp);
+          }
+          if (result.recordset.length == 0) {
+            const resp = {
+              code: 300,
+              message: "Lo sentimos no hay sucursales disponibles"
+            }
+            res.status(200).json(resp);
+          }
+          sql.close()
+        });
+    }
   });
 };
 
 var controller = {
   get: function (req, res) {
-    var sucID = {
-      id: req.params.id
-    }
-    getSuc(req, res, sucID);
+    getSuc(req, res);
   }
 };
 

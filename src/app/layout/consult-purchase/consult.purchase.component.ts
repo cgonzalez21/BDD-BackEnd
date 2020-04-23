@@ -1,18 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, PipeTransform } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { TranslateService } from '@ngx-translate/core';
 import { BackEndService } from '../../service';
 import { FormGroup, FormControl, Validators, AbstractControl, NgForm } from '@angular/forms';
 
+interface Purchase {
+    nombre: string;
+    apellido: string;
+    telefono: string;
+    correo: string;
+    cedula: string;
+    desc_art: string;
+    cantidad: number;
+    subtotal: string;
+    impuesto: string;
+    total: string;
+    fecha: Date;
+  }
+
 
 @Component({
-    selector: 'app-consult-client',
-    templateUrl: './consult.client.component.html',
-    styleUrls: ['./consult.client.component.scss'],
+    selector: 'app-consult-purchase',
+    templateUrl: './consult.purchase.component.html',
+    styleUrls: ['./consult.purchase.component.scss'],
     animations: [routerTransition()]
 })
 
-export class ConsultClientComponent implements OnInit {
+export class ConsultPurchaseComponent implements OnInit {
 
     profileForm: FormGroup;
     private formDirective: NgForm;
@@ -20,12 +34,12 @@ export class ConsultClientComponent implements OnInit {
     alert: {};
     alertSuccess: boolean = false;
     tableVisible: boolean = false;
+    sucID: string;
+    purchases: Purchase [];
+    filter = new FormControl('');
+    public searchString: string;
 
     constructor(private translate: TranslateService, private beservice: BackEndService) {
-        this.profileForm = new FormGroup({
-            cedula: new FormControl('', [Validators.required,
-            Validators.maxLength(30), Validators.minLength(1)])
-        });
         this.translate.setDefaultLang('es');
         this.alert = {
             id: 1,
@@ -34,13 +48,14 @@ export class ConsultClientComponent implements OnInit {
         };
     }
 
-    ngOnInit() { }
+    ngOnInit() { this.sucID = localStorage.getItem('sucID'); this.getPurchases() }
 
-    onSubmit() {
-        this.beservice.getClient(this.profileForm.value).subscribe((res) => {
+    getPurchases() {
+        this.beservice.getPurchases(this.sucID).subscribe((res) => {
             if (res.code == 200) {
-                this.data = res.data;
+                this.purchases = res.data;
                 this.tableVisible = true;
+                console.log(this.purchases);
             }
             if (res.code == 300) {
                 this.alert = {
@@ -51,7 +66,7 @@ export class ConsultClientComponent implements OnInit {
                 this.tableVisible = false;
                 this.alertSuccess = true;
             }
-            if(res.code == 404){
+            if (res.code == 404) {
                 this.alert = {
                     id: 1,
                     type: 'danger',

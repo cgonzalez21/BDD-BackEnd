@@ -8,21 +8,36 @@ function getInv(req, res, inventario) {
   sql.connect(config, function (err) {
 
     if (err) {
-      console.log("ERROR IN CONNECT");
-      console.log(err);
+      const resp = {
+        code: 500,
+        message: "ERROR IN DATA BASE CONNECTION",
+        error: err
+      }
+      res.send(resp);
+    }
+    else {
+      var request = new sql.Request()
+        .input('i_id_suc', sql.VarChar, inventario.id_sucursal)
+        .execute('dbo.API_GetOneInv', (err, result) => {
+          if (err) {
+            const resp = {
+              code: 401,
+              message: "Ha ocurrido un error, lo sentimos. Intente mas tarde"
+            };
+            res.send(resp);
+          }
+          if (result.returnValue == 0 && result.recordset.length > 0) {
+            const resp = {
+              code: 200,
+              message: "OK",
+              data: result.recordset
+            }
+            res.status(200).json(resp);
+          }
+          sql.close()
+        });
     }
 
-    var request = new sql.Request()
-      .input('i_id_suc', sql.VarChar, inventario.id_sucursal)
-      .execute('dbo.API_GetOneInv', (err, result) => {
-        if (err) {
-          res.send(err);
-        }
-        if (result.returnValue == 0) {
-          res.status(200).json(result.recordset);
-        }
-        sql.close()
-      });
   });
 };
 

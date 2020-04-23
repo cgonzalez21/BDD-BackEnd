@@ -3,18 +3,22 @@
 
     <h4>{{ 'Client' | translate }}</h4>
 
-
+    <div>
+        <p>
+            <ngb-alert *ngIf="alertSuccess" [type]="alert.type" (close)="close()">{{ alert.message }}</ngb-alert>
+        </p>
+    </div>
     <form role="form" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
 
         <div class="form-group has-success">
             <label class="form-control-label" for="inputSuccess">{{'ID' | translate}}</label>
-            <input formControlName="cedula" type="text" class="form-control form-control-success" id="inputSuccess">
+            <input (ngModelChange)="onInputChange()" formControlName="cedula" type="text" class="form-control form-control-success" id="inputSuccess">
         </div>
         <button type="submit" [disabled]="profileForm.status === 'INVALID'"
             class="btn btn-primary">{{'Consult' | translate}}</button>
     </form>
 
-    <!-- <div *ngIf="data" class="card-body table-responsive">
+    <div *ngIf="tableVisible" class="card-body table-responsive">
         <table class="card-body table">
             <thead>
                 <tr>
@@ -39,5 +43,5 @@
                 </tr>
             </tbody>
         </table>
-    </div> -->
+    </div>
 </div>

@@ -18,7 +18,8 @@ const routes: Routes = [
             { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
             { path: 'consult', loadChildren: './consult-client/consult.client.module#ConsultClientModule'},
             { path: 'inventary', loadChildren: './inventary/inventary.module#InventaryModule'},
-            { path: 'new-purchase', loadChildren: './new-purchase/new.purchase.module#NewPurchaseModule'}
+            { path: 'new-purchase', loadChildren: './new-purchase/new.purchase.module#NewPurchaseModule'},
+            { path: 'consult-purchase', loadChildren: './consult-purchase/consult.purchase.module#ConsultPurchaseModule'}
         ]
     }
 ];

@@ -3,6 +3,11 @@
         <div class="col-md-4">
             <img src="assets/images/logo.png" width="150px" class="user-avatar" />
             <h1>Hello</h1>
+            <div>
+                <p>
+                    <ngb-alert *ngIf="alertSuccess" [type]="alert.type" (close)="close()">{{ alert.message }}</ngb-alert>
+                </p>
+            </div>
             <form #loginForm="ngForm" role="form">
                 <div class="form-content">
                     <div class="form-group" ngbDropdown #myDrop="ngbDropdown">

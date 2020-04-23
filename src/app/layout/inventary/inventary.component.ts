@@ -16,6 +16,8 @@ export class InventaryComponent implements OnInit {
 
     private formDirective: NgForm;
     data: string[];
+    alert: {};
+    alertSuccess: boolean = false;
 
     constructor(private translate: TranslateService, private beservice: BackEndService) {
     }
@@ -23,8 +25,23 @@ export class InventaryComponent implements OnInit {
     ngOnInit() {
         const sucID = localStorage.getItem('sucID');
         this.beservice.getInventario(sucID).subscribe((res) => {
-            this.data = res;
+            if (res.code == 200) {
+                this.data = res.data;
+            }
+            if (res.code == 401) {
+                this.alert = {
+                    id: 1,
+                    type: 'danger',
+                    message: res.message,
+                };
+                this.alertSuccess = true;
+            }
+            this.data = res.data;
         });
+    }
+
+    close() {
+        this.alertSuccess = false;
     }
 
 

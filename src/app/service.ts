@@ -4,8 +4,6 @@ import { Router } from "@angular/router";
 import { Subject, throwError, Observable } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 
-import { Empresa } from "./model/empresa.model";
-import { FormGroup } from "@angular/forms";
 // import { AuthUser } from "./auth-user.model";
 
 
@@ -26,9 +24,10 @@ export class BackEndService {
         return this.http.get("http://localhost:3000/api/getEmpresa")
             .
             pipe(
-                map((data: Empresa[]) => {
+                map((data) => {
                     return data;
                 }), catchError(error => {
+                    this.router.navigate["/"];
                     return throwError('Something went wrong!');
                 })
             )
@@ -39,8 +38,14 @@ export class BackEndService {
         return this.http.post("http://localhost:3000/api/saveClient", cliente).
             pipe(
                 map((data: any) => {
-                    return data;
+                    if (data.code != 500) {
+                        return data;
+                    } else {
+                        this.onDbError();
+                    }
+
                 }), catchError(error => {
+                    this.onDbError();
                     return throwError('Something went wrong!');
                 })
             );
@@ -51,99 +56,108 @@ export class BackEndService {
         return this.http.get("http://localhost:3000/api/getClient/" + cedula).
             pipe(
                 map((data: any) => {
-                    return data;
+                    if (data.code != 500) {
+                        return data;
+                    } else {
+                        this.onDbError();
+                    }
                 }), catchError(error => {
+                    this.onDbError();
                     return throwError('Something went wrong!');
                 })
             );
     }
-
 
     getSucursal() {
         return this.sucursal_id;
     }
 
-    getAuthStatusListener() {
-        return this.authStatusListener.asObservable();
-    }
-
     login() {
-        return this.http.get("http://localhost:3000/api/getSucursal/").
+        return this.http.get("http://localhost:3000/api/getSucursal").
             pipe(
                 map((data: any) => {
-                    return data;
+                    if (data.code != 500) {
+                        return data;
+                    } else {
+                        this.onDbError();
+                    }
                 }), catchError(error => {
+                    this.onDbError();
                     return throwError('Something went wrong!');
                 })
             );
     }
 
-    autoAuthUser() {
-        const authInformation = this.getAuthData();
-        if (!authInformation) {
-            return;
-        }
-        const now = new Date();
-        const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
-        if (expiresIn > 0) {
-            this.token = authInformation.token;
-            this.isAuthenticated = true;
-            this.sucursal_id = authInformation.sucursal;
-            this.setAuthTimer(expiresIn / 1000);
-            this.authStatusListener.next(true);
-        }
-    }
-
-    logout() {
-        this.token = null;
-        this.isAuthenticated = false;
-        this.authStatusListener.next(false);
-        this.sucursal_id = null;
-        clearTimeout(this.tokenTimer);
-        this.clearAuthData();
-        this.router.navigate(["/"]);
-    }
-
-    private setAuthTimer(duration: number) {
-        console.log("Setting timer: " + duration);
-        this.tokenTimer = setTimeout(() => {
-            this.logout();
-        }, duration * 1000);
-    }
-
-    private saveAuthData(token: string, expirationDate: Date, sucID: string) {
-        localStorage.setItem("sucursal", sucID);
-        localStorage.setItem("expiration", expirationDate.toISOString());
-        localStorage.setItem("token", token);
-    }
-
-    private clearAuthData() {
-        localStorage.removeItem("sucursal");
-        localStorage.removeItem("expiration");
-        localStorage.removeItem("token");
-    }
-
-    private getAuthData() {
-        const sucursal = localStorage.getItem("sucursal");
-        const expirationDate = localStorage.getItem("expiration");
-        const token = localStorage.getItem("token");
-        if (!expirationDate) {
-            return;
-        }
-        return {
-            token: token,
-            expirationDate: new Date(expirationDate),
-            sucursal: sucursal
-        }
-    }
 
     getInventario(form: string) {
         const sucID = form;
         return this.http.get("http://localhost:3000/api/getInventario/" + sucID).
             pipe(
                 map((data: any) => {
-                    return data;
+                    if (data.code != 500) {
+                        return data;
+                    } else {
+                        this.onDbError();
+                    }
                 }), catchError(error => {
+                    this.onDbError();
+                    return throwError('Something went wrong!');
+                })
+            );
+    }
+
+    savePurchase(purchase: any) {
+        return this.http.post("http://localhost:3000/api/savePurchase", purchase)
+            .pipe(
+                map((data: any) => {
+                    if (data.code != 500) {
+                        return data;
+                    } else {
+                        this.onDbError();
+                    }
+                }), catchError(error => {
+                    this.onDbError();
+                    return throwError('Something went wrong!');
+                })
+            );
+    }
+
+    onDbError() {
+        localStorage.removeItem('isLoggedin');
+        localStorage.removeItem('sucID');
+        localStorage.removeItem('sucName');
+        this.router.navigate["/"]
+    }
+
+    getClientPurchase(body: any) {
+        return this.http.get("http://localhost:3000/api/getClientPurchase", body)
+            .pipe(
+                map((data: any) => {
+                    if (data.code != 500) {
+                        console.log(data);
+                        return data;
+                    } else {
+                        this.onDbError();
+                    }
+                }), catchError(error => {
+                    this.onDbError();
+                    return throwError('Something went wrong!');
+                })
+            );
+    }
+
+    getPurchases(sucID: string) {
+        return this.http.get("http://localhost:3000/api/getAllPurchases/" + sucID)
+            .
+            pipe(
+                map((data: any) => {
+                    if (data.code != 500) {
+                        return data;
+                    } else {
+                        this.onDbError();
+                    }
+                }), catchError(error => {
+                    this.onDbError();
                     return throwError('Something went wrong!');
                 })
             );

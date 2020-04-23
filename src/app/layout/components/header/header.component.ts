@@ -39,8 +39,17 @@ export class HeaderComponent implements OnInit {
 
     getEmpresa() {
         this.beservice.getEmpresa().subscribe((data: any) => {
-            for (let i in data) {
-                this.empresa = data[i];
+            const resp = data.data;
+            if (data.code == 404) {
+                this.router.navigate["/"];
+                localStorage.removeItem('isLoggedin');
+                localStorage.removeItem('sucID');
+                localStorage.removeItem('sucName');
+            }
+            else {
+                for (let i in resp) {
+                    this.empresa = resp[i];
+                }
             }
         });
     }
@@ -58,6 +67,7 @@ export class HeaderComponent implements OnInit {
     onLoggedout() {
         localStorage.removeItem('isLoggedin');
         localStorage.removeItem('sucID');
+        localStorage.removeItem('sucName');
     }
 
 }

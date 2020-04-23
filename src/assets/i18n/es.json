@@ -49,6 +49,11 @@
     "Status": "Estatus",
     "Purchase": "Compra",
     "New purchase": "Nueva compra",
-    "Consult purchase": "Consultar compra",
-    "Purchase details": "Detalles de compra"
+    "Consult client purchase": "Consultar compra de cliente",
+    "Purchase details": "Detalles de compra",
+    "Enter the amount": "Introduzca la cantidad",
+    "Amount": "Cantidad",
+    "Subtotal": "Subtotal",
+    "Tax": "Impuesto",
+    "Total": "Total"
 }

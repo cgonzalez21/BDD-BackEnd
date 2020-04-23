@@ -40,24 +40,23 @@ export class FormComponent implements OnInit {
 
     onSubmit() {
         this.beservice.createClient(this.profileForm.value).subscribe((res) => {
-            var type: string;
-            var message: string;
 
-            if (res === "Client created succesfuly!!") {
-                type = 'success'
-                message = res;
-            }
-            else {
-                type = 'danger'
-                message = 'Something went wrong!'
-            }
-
-            this.alert = {
-                id: 1,
-                type: type,
-                message: res,
-            };
-            this.alertSuccess = true;
+                    if (res.code == 200) {
+                        this.alert = {
+                            id: 1,
+                            type: 'success',
+                            message: res.message,
+                        };
+                        this.alertSuccess = true;
+                    }
+                    if (res.code == 404) {
+                        this.alert = {
+                            id: 1,
+                            type: 'danger',
+                            message: res.message,
+                        };
+                        this.alertSuccess = true;
+                    }
         });
     }
 

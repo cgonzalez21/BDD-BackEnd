@@ -2,6 +2,11 @@
     <app-page-header [heading]="'Consultar Cliente'" [icon]="'fa-edit'"></app-page-header>
 
     <h4>{{ 'Inventary' | translate }}</h4>
+    <div>
+        <p>
+            <ngb-alert *ngIf="alertSuccess" [type]="alert.type" (close)="close()">{{ alert.message }}</ngb-alert>
+        </p>
+    </div>
 
     <div *ngIf="data" class="card-body table-responsive">
         <table class="card-body table">
@@ -27,4 +32,6 @@
             </tbody>
         </table>
     </div>
+
+
 </div>
