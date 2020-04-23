@@ -1,6 +1,5 @@
 var sql = require("mssql");
 var config = require("../config/db")();
-var Inventario = require('../models/inventario');
 
 
 function getInv(req, res, inventario) {
