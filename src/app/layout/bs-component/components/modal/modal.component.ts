@@ -11,7 +11,6 @@ export class ModalComponent {
     constructor(private modalService: NgbModal) { }
 
     open(content) {
-        console.log(content);
         this.modalService.open(content).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
         }, (reason) => {

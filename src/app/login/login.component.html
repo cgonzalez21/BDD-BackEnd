@@ -1,22 +1,27 @@
-<div class="login-page" [@routerTransition]>
+<div class="login-page">
     <div class="row justify-content-md-center">
         <div class="col-md-4">
             <img src="assets/images/logo.png" width="150px" class="user-avatar" />
-            <h1>SB Admin BS4 Angular5</h1>
-            <form role="form">
+            <h1>Hello</h1>
+            <div>
+                <p>
+                    <ngb-alert *ngIf="alertSuccess" [type]="alert.type" (close)="close()">{{ alert.message }}</ngb-alert>
+                </p>
+            </div>
+            <form #loginForm="ngForm" role="form">
                 <div class="form-content">
-                    <div class="form-group">
-                        <input type="text" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="Email">
-                    </div>
-
-                    <div class="form-group">
-                        <input type="password" class="form-control input-underline input-lg" id="" placeholder="Password">
+                    <div class="form-group" ngbDropdown #myDrop="ngbDropdown">
+                        <a class="btn rounded-btn" ngbDropdownToggle>{{selectItem}} </a>
+                        <div ngbDropdownMenu>
+                            <button class="dropdown-item" (click)="changeSortOrder(item)"
+                                *ngFor="let item of data">{{item.Nombre_su}}</button>
+                        </div>
                     </div>
                 </div>
-                <a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLoggedin()"> Log in </a>
+                <a [routerLink]="['/dashboard']" class="btn rounded-btn" (click)="onLoggedin()"> Log in </a>
                 &nbsp;
-                <a class="btn rounded-btn" [routerLink]="['/signup']">Register</a>
             </form>
+
         </div>
     </div>
 </div>

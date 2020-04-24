@@ -9,7 +9,10 @@ $topnav-background-color: #222;
     right: 0;
     bottom: 0;
     overflow: auto;
-    background: $topnav-background-color;
+    background: rgb(64, 62, 114);
+    background: linear-gradient(rgba(64, 62, 114, 1) , rgba(247, 165, 39, 1));
+    // background: rgb(184, 75, 108);
+    // background: radial-gradient(circle, rgba(184, 75, 108, 1) 0%, rgba(26, 40, 91, 1) 60%, rgba(3, 11, 37, 1) 100%);
     text-align: center;
     color: #fff;
     padding: 3em;
@@ -91,5 +94,21 @@ $topnav-background-color: #222;
         -webkit-border-radius: 50%;
         border-radius: 50%;
         border: 2px solid #fff;
+    }
+
+    .btn-outline-primary:not([disabled]):not(.disabled):active, 
+    .btn-outline-primary:not([disabled]):not(.disabled).active, 
+    .show > .btn-outline-primary.dropdown-toggle,
+    .btn-outline-primary,
+    .btn-outline-primary:hover {
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        color: rgba(255, 255, 255, 0.8);
+        background: $topnav-background-color;
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        font-size: 18px;
+        line-height: 40px;
+        padding: 0 25px;
+        box-shadow: none;
     }
 }

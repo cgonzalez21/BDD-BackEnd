@@ -1,8 +1,8 @@
+var Articulo = require('../models/articulo')
 var sql = require("mssql");
 var config = require("../config/db")();
 
-
-function getInv(req, res, inventario) {
+function getSuc(req, res) {
 
   sql.connect(config, function (err) {
 
@@ -16,8 +16,7 @@ function getInv(req, res, inventario) {
     }
     else {
       var request = new sql.Request()
-        .input('i_id_suc', sql.VarChar, inventario.id_sucursal)
-        .execute('dbo.API_GetOneInv', (err, result) => {
+        .execute('dbo.API_GetSucID', (err, result) => {
           if (err) {
             const resp = {
               code: 401,
@@ -33,20 +32,22 @@ function getInv(req, res, inventario) {
             }
             res.status(200).json(resp);
           }
+          if (result.recordset.length == 0) {
+            const resp = {
+              code: 300,
+              message: "Lo sentimos no hay sucursales disponibles"
+            }
+            res.status(200).json(resp);
+          }
           sql.close()
         });
     }
-
   });
 };
 
-
 var controller = {
   get: function (req, res) {
-    var inventario = {
-      id_sucursal: req.params.id
-    }
-    getInv(req, res, inventario);
+    getSuc(req, res);
   }
 };
 

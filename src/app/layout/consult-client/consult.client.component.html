@@ -1,0 +1,47 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Consultar Cliente'" [icon]="'fa-edit'"></app-page-header>
+
+    <h4>{{ 'Client' | translate }}</h4>
+
+    <div>
+        <p>
+            <ngb-alert *ngIf="alertSuccess" [type]="alert.type" (close)="close()">{{ alert.message }}</ngb-alert>
+        </p>
+    </div>
+    <form role="form" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group has-success">
+            <label class="form-control-label" for="inputSuccess">{{'ID' | translate}}</label>
+            <input (ngModelChange)="onInputChange()" formControlName="cedula" type="text" class="form-control form-control-success" id="inputSuccess">
+        </div>
+        <button type="submit" [disabled]="profileForm.status === 'INVALID'"
+            class="btn btn-primary">{{'Consult' | translate}}</button>
+    </form>
+
+    <div *ngIf="tableVisible" class="card-body table-responsive">
+        <table class="card-body table">
+            <thead>
+                <tr>
+                    <th>{{'Identifier' | translate}}</th>
+                    <th>{{'Registry date' | translate }}</th>
+                    <th>{{'Name' | translate }}</th>
+                    <th>{{'Last name' | translate }}</th>
+                    <th>{{'Telephone number' | translate }}</th>
+                    <th>{{'Email' | translate }}</th>
+                    <th>{{'ID' | translate }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let info of data" class="table-info">
+                    <th scope="row">{{info.Id_cl}}</th>
+                    <td>{{info.FechaRegistro_cl}}</td>
+                    <td>{{info.Nombre_cl}}</td>
+                    <td>{{info.Apellido_cl}}</td>
+                    <td>{{info.Telefono_cl}}</td>
+                    <td>{{info.Correo_cl}}</td>
+                    <td>{{info.Cedula_cl}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

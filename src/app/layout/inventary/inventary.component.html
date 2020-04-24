@@ -1,0 +1,37 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Consultar Cliente'" [icon]="'fa-edit'"></app-page-header>
+
+    <h4>{{ 'Inventary' | translate }}</h4>
+    <div>
+        <p>
+            <ngb-alert *ngIf="alertSuccess" [type]="alert.type" (close)="close()">{{ alert.message }}</ngb-alert>
+        </p>
+    </div>
+
+    <div *ngIf="data" class="card-body table-responsive">
+        <table class="card-body table">
+            <thead>
+                <tr>
+                    <th>{{'Registry date' | translate}}</th>
+                    <th>{{'Name' | translate }}</th>
+                    <th>{{'Description' | translate }}</th>
+                    <th>{{'Available' | translate }}</th>
+                    <th>{{'Price' | translate }}</th>
+                    <th>{{'ITBMS' | translate }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let info of data" class="table-info">
+                    <th scope="row">{{info.FechaRegistro_in}}</th>
+                    <td>{{info.Nombre_al}}</td>
+                    <td>{{info.Descripcion_ar}}</td>
+                    <td>{{info.Disponible_in}}</td>
+                    <td>{{info.Precio_ar}}</td>
+                    <td>{{info.PorcentajeImpuesto_ar}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>

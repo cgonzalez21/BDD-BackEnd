@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { FormRoutingModule } from './form-routing.module';
-import { FormComponent } from './form.component';
-import { PageHeaderModule } from './../../shared';
+import { ConsultClientRouting } from './consult.client-routing.module';
+import { ConsultClientComponent } from './consult.client.component';
+import { PageHeaderModule } from '../../shared';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [CommonModule,
-        FormRoutingModule,
+        ConsultClientRouting,
         PageHeaderModule,
         TranslateModule,
         FormsModule,
         ReactiveFormsModule,
         NgbModule.forRoot()],
-    declarations: [FormComponent]
+    declarations: [ConsultClientComponent]
 })
-export class FormModule { }
+export class ConsultClientModule { }

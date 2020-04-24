@@ -5,21 +5,36 @@ function getEmpresa(req, res, cliente) {
     sql.connect(config, function (err) {
 
         if (err) {
-            console.log("ERROR IN CONNECT");
-            console.log(err);
+            const resp = {
+                code: 500,
+                message: "ERROR IN DATA BASE CONNECTION",
+                error: err
+            }
+            res.send(resp);
         }
+        else {
+            var request = new sql.Request();
 
-        var request = new sql.Request();
-
-        request.execute('dbo.API_GetEmpresa', (err, result) => {
-            if (err) {
-                res.send(err);
-            }
-            if (result.returnValue == 0) {
-                res.json(result.recordset);
-            }
-            sql.close()
-        });
+            request.execute('dbo.API_GetEmpresa', (err, result) => {
+                if (err) {
+                    const resp = {
+                        code: 404,
+                        message: "ERROR",
+                        error: err
+                    }
+                    res.send(resp);
+                }
+                if (result.returnValue == 0) {
+                    const resp = {
+                        code: 200,
+                        message: "OK",
+                        data: result.recordset
+                    }
+                    res.json(resp);
+                }
+                sql.close()
+            });
+        }
     });
 };
 
