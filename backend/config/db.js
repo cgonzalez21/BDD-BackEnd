@@ -1,29 +1,15 @@
 module.exports = function () {
-	// return {
-	// 	poolConfig: {
-	// 		min: 0,
-	// 		max: 20,
-	// 		log: false,
-	// 		idleTimeout: 100000,
-	// 		multipleStatements: true
-	// 	},
-	// 	connectionConfig: {
-	// 		userName: 'sa',
-	// 		password: 'sa123',
-	// 		server: 'localhost',
-	// 		options: {
-	// 			database: 'REPOS',
-	// 			instanceName: 'SQLEXPRESS',
-	// 			useColumnNames: true,
-	// 			enableArithAbort: false
-	// 		}
-	// 	}
-	// };
 	return {
 		server: 'localhost',
 		user: 'sa',
 		password: 'sa123',
-		database: 'REPOS',
-		instanceName: 'SQLEXPRESS'
+		database: 'REPOS'
 	}
+	// return {
+	// 	server: '192.168.149.129',
+	// 	user: 'sa',
+	// 	port: 1451,
+	// 	password: 'Pa55w0rd!',
+	// 	database: 'REPOS'
+	// }
 }

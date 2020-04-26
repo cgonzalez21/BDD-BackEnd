@@ -2,6 +2,7 @@ var sql = require("mssql");
 var config = require("../config/db")();
 
 function getEmpresa(req, res, cliente) {
+    console.log(config);
     sql.connect(config, function (err) {
 
         if (err) {

@@ -21,7 +21,6 @@ router.get("/getSucursal", sucursal.get);
 
 //routers of venta
 router.post("/savePurchase", venta.save);
-router.get("/getClientPurchase", venta.get);
 router.get("/getAllPurchases/:id", venta.getAll);
 
 module.exports = router;

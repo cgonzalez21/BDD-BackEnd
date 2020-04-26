@@ -49,5 +49,6 @@ app.set("port", port);
 const server = http.createServer(app);
 server.on("error", onError);
 server.on("listening", onListening);
-console.log("HOLA MUNDO FROM SERVER");
+console.log("HOLA MUNDO FROM SERVER", port);
+console.log(server.timeout.toString());
 server.listen(port);

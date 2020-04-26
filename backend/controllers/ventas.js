@@ -1,52 +1,6 @@
 var sql = require("mssql");
 var config = require("../config/db")();
 
-
-
-function getVentaCliente(req, res, venta) {
-  sql.connect(config, function (err) {
-    if (err) {
-      const resp = {
-        code: 500,
-        message: "ERROR IN DATA BASE CONNECTION",
-        error: err
-      }
-      res.send(resp);
-    }
-    else {
-      var request = new sql.Request()
-        .input('i_cedula', sql.VarChar, venta.cedula)
-        .input('id_sucursal', sql.VarChar, venta.id_suc)
-        .execute('dbo.API_GetComprasCliente', (err, result) => {
-          if (err) {
-            const resp = {
-              code: 400,
-              message: "Ha ocurrido un error, lo sentimos. Intente mas tarde"
-            };
-            res.send(resp);
-          }
-          if (result.returnValue == 0 && result.recordset.length > 0) {
-            const resp = {
-              code: 200,
-              message: "OK",
-              data: result.recordset
-            }
-            res.status(200).json(resp);
-          }
-          if (result.recordset.length == 0) {
-            const resp = {
-              code: 300,
-              message: "El cliente no ha realizado ventas"
-            }
-            res.status(200).json(resp);
-          }
-          sql.close()
-        });
-    }
-  });
-};
-
-
 function getVentas(req, res, venta) {
   sql.connect(config, function (err) {
 
@@ -134,14 +88,6 @@ function saveVenta(req, res, new_venta) {
 
 
 var controller = {
-  get: function (req, res) {
-    console.log(req.params);
-    var venta = {
-      cedula: req.body.cedula,
-      id_suc: req.body.id_suc
-    };
-    getVentaCliente(req, res, venta);
-  },
   getAll: function (req, res) {
     var venta = {
       id_suc: req.params.id

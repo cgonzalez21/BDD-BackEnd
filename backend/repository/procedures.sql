@@ -34,11 +34,6 @@ GO
 
 --*********************************************************************************************
 
-
-
-
-
-
 --Create procedure para insertar un registro de un cliente nuevo
 IF NOT EXISTS (SELECT *
 FROM sys.objects
@@ -121,9 +116,8 @@ ALTER PROCEDURE [dbo].[API_GetOneInv]
     @i_id_suc varchar(100)
 AS
 SET NOCOUNT ON;
-SELECT --[ID_in], [AlmacenID_in],
-    [ArticuloID_in], Convert(nvarchar(12),[FechaRegistro_in], 101) as FechaRegistro_in, [Nombre_al], [Descripcion_ar],
-    [Disponible_in], [Precio_ar], [PorcentajeImpuesto_ar]
+SELECT [ArticuloID_in], Convert(nvarchar(12),[FechaRegistro_in], 101) as FechaRegistro_in, [Nombre_al], [Descripcion_ar],
+    [Disponible_in], [Precio_ar]
 FROM [dbo].[Inventario], [dbo].[Almacen], [dbo].[Articulo]
 WHERE [AlmacenID_in] = [ID_al]
     AND [ArticuloID_in] = [ID_ar]
