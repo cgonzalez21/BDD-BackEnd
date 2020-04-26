@@ -47,7 +47,7 @@
         "rxjs": "6.0.0",
         "tedious": "^8.2.0",
         "tedious-connection-pool": "^1.0.5",
-        "yarn": "1.6.0",
+        "yarn": "1.22.0",
         "zone.js": "^0.8.29"
     },
     "devDependencies": {
