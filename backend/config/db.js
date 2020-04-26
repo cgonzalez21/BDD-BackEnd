@@ -1,15 +1,9 @@
 module.exports = function () {
 	return {
-		server: 'localhost',
+		server: '192.168.149.129',
 		user: 'sa',
-		password: 'sa123',
+		port: 1451,
+		password: 'Pa55w0rd!',
 		database: 'REPOS'
 	}
-	// return {
-	// 	server: '192.168.149.129',
-	// 	user: 'sa',
-	// 	port: 1451,
-	// 	password: 'Pa55w0rd!',
-	// 	database: 'REPOS'
-	// }
 }
