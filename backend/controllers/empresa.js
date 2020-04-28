@@ -8,7 +8,7 @@ function getEmpresa(req, res, cliente) {
         if (err) {
             const resp = {
                 code: 500,
-                message: "ERROR IN DATA BASE CONNECTION",
+                message: "Lo sentimos, error en conexión con base de datos. Intente mas tarde",
                 error: err
             }
             res.send(resp);

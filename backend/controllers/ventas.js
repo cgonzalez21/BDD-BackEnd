@@ -7,7 +7,7 @@ function getVentas(req, res, venta) {
     if (err) {
       const resp = {
         code: 500,
-        message: "ERROR IN DATA BASE CONNECTION",
+        message: "Lo sentimos, error en conexión con base de datos. Intente mas tarde",
         error: err
       }
       res.send(resp);
@@ -52,7 +52,7 @@ function saveVenta(req, res, new_venta) {
     if (err) {
       const resp = {
         code: 500,
-        message: "ERROR IN DATA BASE CONNECTION",
+        message: "Lo sentimos, error en conexión con base de datos. Intente mas tarde",
         error: err
       }
       res.send(resp);

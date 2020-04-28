@@ -9,7 +9,7 @@ function getCliente(req, res, cliente) {
     if (err) {
       const resp = {
         code: 500,
-        message: "ERROR IN DATA BASE CONNECTION",
+        message: "Lo sentimos, error en conexión con base de datos. Intente mas tarde",
         error: err
       }
       res.send(resp);
@@ -55,7 +55,7 @@ function saveClient(req, res, new_cliente) {
     if (err) {
       const resp = {
         code: 500,
-        message: "ERROR IN DATA BASE CONNECTION",
+        message: "Lo sentimos, error en conexión con base de datos. Intente mas tarde",
         error: err
       }
       res.send(resp);
@@ -67,7 +67,7 @@ function saveClient(req, res, new_cliente) {
         .input('i_Telefono_cl', sql.VarChar, new_cliente.telefono)
         .input('i_Correo_cl', sql.VarChar, new_cliente.correo)
         .input('i_Cedula_cl', sql.VarChar, new_cliente.cedula)
-        .execute('dbo.API_PutCliente', (err, result) => {
+        .execute('dbo.API_PostCliente', (err, result) => {
           if (err) {
             const resp = {
               code: 404,
@@ -78,7 +78,7 @@ function saveClient(req, res, new_cliente) {
           if (result.returnValue == 0) {
             const resp = {
               code: 200,
-              message: "Client created succesfuly!!"
+              message: "Cliente creado satisfactoriamente!!"
             }
             res.status(200).json(resp);
           }
