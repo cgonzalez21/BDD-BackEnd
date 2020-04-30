@@ -34,7 +34,7 @@ function getVentas(req, res, venta) {
           if (result.recordset.length == 0) {
             const resp = {
               code: 300,
-              message: "No se realizado ventas en esta sucursal."
+              message: "No se han realizado ventas en esta sucursal."
             }
             res.status(200).json(resp);
           }
