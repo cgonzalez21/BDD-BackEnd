@@ -18,7 +18,7 @@ function getVentas(req, res, venta) {
         .execute('dbo.API_GetCompras', (err, result) => {
           if (err) {
             const resp = {
-              code: 400,
+              code: 404,
               message: "Ha ocurrido un error, lo sentimos. Intente mas tarde"
             };
             res.send(resp);
@@ -34,7 +34,7 @@ function getVentas(req, res, venta) {
           if (result.recordset.length == 0) {
             const resp = {
               code: 300,
-              message: "El cliente no ha realizado ventas"
+              message: "No se realizado ventas en esta sucursal."
             }
             res.status(200).json(resp);
           }
