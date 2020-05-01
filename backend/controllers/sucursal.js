@@ -1,4 +1,3 @@
-var Articulo = require('../models/articulo')
 var sql = require("mssql");
 var config = require("../config/db")();
 
